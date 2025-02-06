@@ -1,26 +1,28 @@
-package stepDefinitions;
+package bdd.steps;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import io.cucumber.java.en.*;
+import org.openqa.selenium.WebDriver;
+import page.MainPage;
+import page.RegistrationPage;
+import util.WebDriverManager;
+
 import static org.testng.AssertJUnit.assertTrue;
-import static utils.Paths.*;
 
 public class NavigationSteps {
-    WebDriver driver;
+    WebDriver driver = WebDriverManager.getDriver();
+    MainPage mainPage = new MainPage(driver);
+    RegistrationPage registrationPage = new RegistrationPage(driver);
 
     @Given("the user is on the Login page")
     public void theUserIsOnTheLoginPage() {
-        System.setProperty(TYPE_OF_DRIVER, PATH_TO_DRIVER);
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.get(INDEX_PAGE_URL);
+        driver.get("https://parabank.parasoft.com");
     }
 
     @When("the user clicks on the {string} link")
     public void theUserClicksOnTheLink(String linkText) {
-        driver.findElement(By.linkText(linkText)).click();
+        if (linkText.equals("Register")) {
+            driver.findElement(org.openqa.selenium.By.linkText("Register")).click();
+        }
     }
 
     @Then("the user should be redirected to the Registration page")
@@ -30,7 +32,6 @@ public class NavigationSteps {
 
     @Then("the registration form should be displayed")
     public void theRegistrationFormShouldBeDisplayed() {
-        assertTrue(driver.findElement(By.id("customerForm")).isDisplayed());
-        driver.quit();
+        assertTrue(registrationPage.isRegistrationFormDisplayed());
     }
 }

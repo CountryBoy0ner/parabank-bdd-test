@@ -1,4 +1,5 @@
-package stepDefinitions;
+package bdd.steps;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -6,7 +7,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import io.cucumber.java.en.*;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
-import static utils.Paths.*;
+import static util.WebDriverManager.*;
 
 public class CustomerLoginSteps {
     WebDriver driver;

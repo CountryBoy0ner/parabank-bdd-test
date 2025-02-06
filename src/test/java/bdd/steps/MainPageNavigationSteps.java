@@ -1,30 +1,29 @@
-package stepDefinitions;
+package bdd.steps;
 
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
+import io.cucumber.java.en.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import page.AdminPage;
+import page.MainPage;
+import util.WebDriverManager;
+
 
 import java.time.Duration;
 
 import static org.testng.AssertJUnit.assertTrue;
-import static utils.Paths.*;
 
-public class MainPageNavigationAndFunctionalVerificationSteps {
-    WebDriver driver;
+public class MainPageNavigationSteps {
+    WebDriver driver = WebDriverManager.getDriver();
+    MainPage mainPage = new MainPage(driver);
+    AdminPage adminPage = new AdminPage(driver);
 
     @Given("I am on the main page")
     public void iAmOnTheMainPage() {
-        System.setProperty(TYPE_OF_DRIVER, PATH_TO_DRIVER);
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.get(INDEX_PAGE_URL);
+        driver.get("https://parabank.parasoft.com/parabank/index.htm");
     }
 
     @When("I click on the {string} link")
@@ -94,16 +93,13 @@ public class MainPageNavigationAndFunctionalVerificationSteps {
 
     @Then("I should see the message {string}")
     public void iShouldSeeTheMessage(String message) {
-        // Добавим ожидание появления элемента с сообщением
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement messageElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//b[contains(text(),'Settings saved successfully.')]")));
 
-        // Вывод отладочной информации
         String actualMessage = messageElement.getText();
         System.out.println("Expected message: " + message);
         System.out.println("Actual message: " + actualMessage);
-
-        // Проверим текст с удалением лишних пробелов
         assertTrue(actualMessage.trim().equals(message.trim()));
+
     }
 }
